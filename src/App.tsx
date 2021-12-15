@@ -12,9 +12,10 @@ export default function App() {
     };
     setWindowState();
   }, []);
-  const popupWidth = Math.min(800, (currentWindow !== null) ? currentWindow.width * 0.5 : 300);
+  const popupWidth = Math.min(600, (currentWindow !== null) ? currentWindow.width * 0.5 : 600);
+  const popupHeight = Math.min(600, (currentWindow !== null) ? currentWindow.height * 0.5 : 600);
   return (
-    <div style={{ width: popupWidth, height: "100%", backgroundColor: purple }}>
+    <div style={{ width: popupWidth, height: popupHeight, backgroundColor: purple, display: "flex", flexDirection: "column" }}>
       <Banner />
       <Table />
     </div>

@@ -1,6 +1,10 @@
 import MaterialTable from "material-table"
-import { forwardRef, ReactElement } from "react"
+import { forwardRef } from "react"
 import KeyboardArrowDown from "@material-ui/icons/KeyboardArrowDown"
+import FirstPage from "@material-ui/icons/FirstPage"
+import LastPage from "@material-ui/icons/LastPage"
+import NavigateNext from "@material-ui/icons/NavigateNext"
+import NavigateBefore from "@material-ui/icons/NavigateBefore"
 
 interface TableItem {
     url: string;
@@ -29,7 +33,7 @@ export default function Table() {
         {
             url: "URL2",
             title: "TITLE",
-            lastVisited: Date.now()-200,
+            lastVisited: Date.now() - 200,
             timesVisited: 1,
             durationSecs: 7
         },
@@ -41,7 +45,7 @@ export default function Table() {
             durationSecs: 71
         }
     ]
-    return <div>
+    return <div style={{ flex: 1 }}>
         <MaterialTable
             columns={[
                 { title: 'Title', field: 'title' },
@@ -52,22 +56,26 @@ export default function Table() {
 
             ]}
             icons={{
-                SortArrow: forwardRef((props, ref) => <KeyboardArrowDown {...props} ref={ref}/>)
+                SortArrow: forwardRef((props, ref) => <KeyboardArrowDown {...props} ref={ref} />),
+                NextPage: forwardRef((props, ref) => <NavigateNext {...props} ref={ref} />),
+                PreviousPage: forwardRef((props, ref) => <NavigateBefore {...props} ref={ref} />),
+                FirstPage: forwardRef((props, ref) => <FirstPage {...props} ref={ref} />),
+                LastPage: forwardRef((props, ref) => <LastPage {...props} ref={ref} />),
             }}
             data={tableItems}
             options={{
-                search: true,
+                search: false,
                 showTitle: false,
                 headerStyle: {
                     fontSize: 12,
                     padding: 0
                 },
-                pageSize: 10,
+                pageSize: Math.min(tableItems.length, 10),
                 pageSizeOptions: [10, 20, 50, 100],
                 searchFieldAlignment: "right",
                 searchFieldStyle: { padding: 0 }
             }}
-            style={{ fontSize: 12 }}
+            style={{ fontSize: 12, maxHeight: 300 }}
         />
     </div>
 } 
