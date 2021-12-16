@@ -1,0 +1,3 @@
+.MuiToolbar-root {
+    display: initial !important; /* not ideal but lazy. */
+}

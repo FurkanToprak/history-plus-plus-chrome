@@ -5,6 +5,8 @@ import FirstPage from "@material-ui/icons/FirstPage"
 import LastPage from "@material-ui/icons/LastPage"
 import NavigateNext from "@material-ui/icons/NavigateNext"
 import NavigateBefore from "@material-ui/icons/NavigateBefore"
+import Search from "@material-ui/icons/Search"
+import Clear from "@material-ui/icons/Clear"
 
 interface TableItem {
     url: string;
@@ -45,7 +47,7 @@ export default function Table() {
             durationSecs: 71
         }
     ]
-    return <div style={{ flex: 1 }}>
+    return <div style={{ width: "100%" }}>
         <MaterialTable
             columns={[
                 { title: 'Title', field: 'title' },
@@ -61,10 +63,12 @@ export default function Table() {
                 PreviousPage: forwardRef((props, ref) => <NavigateBefore {...props} ref={ref} />),
                 FirstPage: forwardRef((props, ref) => <FirstPage {...props} ref={ref} />),
                 LastPage: forwardRef((props, ref) => <LastPage {...props} ref={ref} />),
+                Search: forwardRef((props, ref) => <Search {...props} ref={ref} />),
+                Clear: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
             }}
             data={tableItems}
             options={{
-                search: false,
+                search: true,
                 showTitle: false,
                 headerStyle: {
                     fontSize: 12,

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Banner from "./components/Banner";
 import Table from "./components/Table";
 import { purple } from "./styles/Theme";
+import "./styles/App.css"
 
 export default function App() {
   const [currentWindow, setCurrentWindow] = useState(null as any);
@@ -15,7 +16,7 @@ export default function App() {
   const popupWidth = Math.min(600, (currentWindow !== null) ? currentWindow.width * 0.5 : 600);
   const popupHeight = Math.min(600, (currentWindow !== null) ? currentWindow.height * 0.5 : 600);
   return (
-    <div style={{ width: popupWidth, height: popupHeight, backgroundColor: purple, display: "flex", flexDirection: "column" }}>
+    <div style={{ width: popupWidth, height: popupHeight, backgroundColor: purple, flexDirection: "column" }}>
       <Banner />
       <Table />
     </div>
