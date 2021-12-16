@@ -53,8 +53,8 @@ export default function Table() {
                 { title: 'Title', field: 'title' },
                 { title: 'URL', field: 'url' },
                 { title: 'Last Visited', field: 'lastVisited', type: 'numeric' },
-                { title: 'Times Visited', field: 'timeVisited', type: 'numeric' },
-                { title: 'Duration', field: 'duration', type: 'numeric' },
+                { title: 'Times Visited', field: 'timesVisited', type: 'numeric' },
+                { title: 'Duration', field: 'durationSecs', type: 'numeric' },
 
             ]}
             icons={{

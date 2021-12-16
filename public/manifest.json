@@ -1,6 +1,6 @@
 {
-  "name": "Bookmarks++",
-  "description": "Better bookmarks for (not just) developers! Find your frequent pages faster.",
+  "name": "History++",
+  "description": "Better history for (not just) developers! Find your frequent pages faster.",
   "version": "1.0",
   "manifest_version": 3,
   "action": {

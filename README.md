@@ -1,5 +1,5 @@
 ![Image](./public/logo128.png)
-# Bookmarks++ Chrome Extension
+# History++ Chrome Extension
 A secure browser extension that helps (not just) developers conveniently sort through their browsing history by many useful criteria.
 # Table of Contents
 * Installation
