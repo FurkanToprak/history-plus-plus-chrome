@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Table, TablePagination, TableSortLabel, TableHead, TableBody, TableCell, TableContainer, TableRow } from "@mui/material"
+import { purple } from "../styles/Theme";
 
 interface TableItem {
     id: string,
@@ -27,16 +28,13 @@ export default function HistoryTable() {
     return <div style={{ maxHeight: 550 }}>
         <TableContainer>
             <Table stickyHeader={true}>
-                <TableHead style={{
-                    backgroundColor: "blue",
-                    color: "red"
-                }}>
+                <TableHead>
                     <TableRow>
-                        <TableCell>Title</TableCell>
-                        <TableCell>Tags</TableCell>
-                        <TableCell>Visit Count</TableCell>
-                        <TableCell>Last Visited</TableCell>
-                        <TableCell>URL</TableCell>
+                        <TableCell style={TableHeaderStyle}>Title</TableCell>
+                        <TableCell style={TableHeaderStyle}>Tags</TableCell>
+                        <TableCell style={TableHeaderStyle}>Visit Count</TableCell>
+                        <TableCell style={TableHeaderStyle}>Last Visited</TableCell>
+                        <TableCell style={TableHeaderStyle}>URL</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -74,4 +72,10 @@ export default function HistoryTable() {
             }}
         />
     </div>
-} 
+}
+
+const TableHeaderStyle = {
+    backgroundColor: 'black',
+    color: purple,
+    border: `1px solid ${purple}`
+}
