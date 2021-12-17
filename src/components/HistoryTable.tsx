@@ -39,19 +39,14 @@ export default function HistoryTable() {
                 </TableHead>
                 <TableBody>
                     {history.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(historyRow => {
-                        return <TableRow>
-                            <a style={{
-                                textDecoration: "none"
-                            }}
-                                target="_blank"
-                                rel="noreferrer"
-                                href={historyRow.url}>
-                                <TableCell>{historyRow.title}</TableCell>
-                                <TableCell>{historyRow.tag}</TableCell>
-                                <TableCell>{historyRow.visitCount}</TableCell>
-                                <TableCell>{historyRow.lastVisitTime}</TableCell>
-                                <TableCell>{historyRow.url?.substring(0, Math.min(10, historyRow.url.length))}</TableCell>
-                            </a>
+                        return <TableRow style={{ cursor: "pointer" }} onMouseDown={() => {
+                            window.open(historyRow.url, "_blank")
+                        }}>
+                            <TableCell>{historyRow.title}</TableCell>
+                            <TableCell>{historyRow.tag}</TableCell>
+                            <TableCell>{historyRow.visitCount}</TableCell>
+                            <TableCell>{historyRow.lastVisitTime}</TableCell>
+                            <TableCell>{historyRow.url?.substring(0, Math.min(10, historyRow.url.length))}</TableCell>
                         </TableRow>
                     })}
                 </TableBody>
@@ -77,5 +72,5 @@ export default function HistoryTable() {
 const TableHeaderStyle = {
     backgroundColor: 'black',
     color: purple,
-    border: `1px solid ${purple}`
+    border: `1px solid ${purple}`,
 }
