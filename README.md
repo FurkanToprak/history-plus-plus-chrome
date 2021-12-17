@@ -16,3 +16,10 @@ Not yet available.
 * `Load Unpacked` and select `build/`
 
 # Using Extension
+
+
+# TODO:
+fix width issue
+find good way to summarize urls (domain?)
+sortable columns
+searchable
