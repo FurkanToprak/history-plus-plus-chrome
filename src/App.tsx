@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import Banner from "./components/Banner";
-import Table from "./components/Table";
 import { purple } from "./styles/Theme";
 import "./styles/App.css"
+import HistoryTable from "./components/HistoryTable";
 
 export default function App() {
   const [currentWindow, setCurrentWindow] = useState(null as any);
@@ -13,12 +13,13 @@ export default function App() {
     };
     setWindowState();
   }, []);
+
   const popupWidth = Math.min(600, (currentWindow !== null) ? currentWindow.width * 0.5 : 600);
   const popupHeight = Math.min(600, (currentWindow !== null) ? currentWindow.height * 0.5 : 600);
   return (
     <div style={{ width: popupWidth, height: popupHeight, backgroundColor: purple, flexDirection: "column" }}>
       <Banner />
-      <Table />
+      <HistoryTable />
     </div>
   );
 }
