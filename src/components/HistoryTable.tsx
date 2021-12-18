@@ -11,6 +11,17 @@ interface TableItem {
     tag?: string;
     lastVisitTime?: number;
 }
+const domainGetterRegex = /(?:[\w-]+\.)+[\w-]+/;
+function getDomainFromURL(url: string | undefined) {
+    if (url === undefined) {
+        return "";
+    }
+    const domainCapture = url.match(domainGetterRegex);
+    if (domainCapture) {
+        return domainCapture[0]
+    }
+    return "";
+}
 
 export default function HistoryTable() {
     const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -34,8 +45,35 @@ export default function HistoryTable() {
     }
     return <div style={{ maxHeight: 550 }}>
         <div style={{ display: "flex", alignItems: "center", flexDirection: "column" }}>
-            <TextField id="outlined-basic" label="Search History" defaultValue={""} onChange={(event) => searchHistory(event.target.value)} />
+            <TextField style={{ width: "100%" }} id="outlined-basic" label="Search History" defaultValue={""} onChange={(event) => searchHistory(event.target.value)} />
         </div>
+        <TableContainer>
+            <Table stickyHeader={true}>
+                <TableHead>
+                    <TableRow>
+                        <TableCell style={TableHeaderStyle}>Site</TableCell>
+                        <TableCell style={TableHeaderStyle}>Tags</TableCell>
+                        <TableCell style={TableHeaderStyle}>Visit Count</TableCell>
+                        <TableCell style={TableHeaderStyle}>Last Visited</TableCell>
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                    {history.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(historyRow => {
+                        return <TableRow style={{ cursor: "pointer" }} onMouseDown={() => {
+                            window.open(historyRow.url, "_blank")
+                        }}>
+                            <TableCell>
+                                <div>{historyRow.title}</div>
+                                <div style={{ textDecoration: "underline", color: "#737373" }}>{getDomainFromURL(historyRow.url)}</div>
+                            </TableCell>
+                            <TableCell>{historyRow.tag}</TableCell>
+                            <TableCell>{historyRow.visitCount}</TableCell>
+                            <TableCell>{historyRow.lastVisitTime}</TableCell>
+                        </TableRow>
+                    })}
+                </TableBody>
+            </Table>
+        </TableContainer>
         <TablePagination
             rowsPerPageOptions={[5, 10, 25, 50]}
             component="div"
@@ -50,32 +88,6 @@ export default function HistoryTable() {
                 setPage(0);
             }}
         />
-        <TableContainer>
-            <Table stickyHeader={true}>
-                <TableHead>
-                    <TableRow>
-                        <TableCell style={TableHeaderStyle}>Title</TableCell>
-                        <TableCell style={TableHeaderStyle}>Tags</TableCell>
-                        <TableCell style={TableHeaderStyle}>Visit Count</TableCell>
-                        <TableCell style={TableHeaderStyle}>Last Visited</TableCell>
-                        <TableCell style={TableHeaderStyle}>URL</TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {history.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(historyRow => {
-                        return <TableRow style={{ cursor: "pointer" }} onMouseDown={() => {
-                            window.open(historyRow.url, "_blank")
-                        }}>
-                            <TableCell>{historyRow.title}</TableCell>
-                            <TableCell>{historyRow.tag}</TableCell>
-                            <TableCell>{historyRow.visitCount}</TableCell>
-                            <TableCell>{historyRow.lastVisitTime}</TableCell>
-                            <TableCell>{historyRow.url?.substring(0, Math.min(10, historyRow.url.length))}</TableCell>
-                        </TableRow>
-                    })}
-                </TableBody>
-            </Table>
-        </TableContainer>
     </div>
 }
 

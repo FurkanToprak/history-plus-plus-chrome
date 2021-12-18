@@ -19,7 +19,5 @@ Not yet available.
 
 
 # TODO:
-fix width issue
-find good way to summarize urls (domain?)
+nice dates
 sortable columns
-searchable
