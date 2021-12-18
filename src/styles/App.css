@@ -1,3 +1,7 @@
 .MuiToolbar-root {
-    display: initial !important; /* not ideal but lazy. */
+  display: initial !important; /* not ideal but lazy. */
+}
+
+.MuiTableSortLabel-icon {
+  color: #cdd2ff !important;
 }

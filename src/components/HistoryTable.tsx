@@ -69,12 +69,10 @@ export default function HistoryTable() {
     const [init, setInit] = useState(false);
     const [history, setHistory] = useState([] as TableItem[]);
 
-    const handleRequestSort = (property: string) => {
-        const oldSortBy = propertyToSortBy(property)
-        const isAsc = orderBy === oldSortBy && order === 'asc';
+    const handleRequestSort = (property: TableSortableColumns) => {
+        const isAsc = orderBy === property && order === 'asc';
         setOrder(isAsc ? 'desc' : 'asc');
-        const newOrderBy = propertyToSortBy(property)
-        setOrderBy(newOrderBy);
+        setOrderBy(property);
     };
 
     const searchHistory = (searchText: string) => {
@@ -101,15 +99,15 @@ export default function HistoryTable() {
                 <TableHead>
                     <TableRow>
                         {columns.map((column) => {
+                            const propertyAsOrderBy = propertyToSortBy(column);
                             return <TableCell style={TableHeaderStyle}
-                                sortDirection={(orderBy === column ? order : false) as SortDirection}>
+                                sortDirection={(propertyAsOrderBy === column ? order : false) as SortDirection}>
+                                {column}
                                 <TableSortLabel
-                                    active={orderBy === column}
-                                    direction={((orderBy === column) ? order : 'asc') as SortDirection}
-                                    onClick={() => handleRequestSort(column)}
-                                >
-                                    {column}
-                                </TableSortLabel>
+                                    active={propertyAsOrderBy === orderBy}
+                                    direction={((propertyAsOrderBy === orderBy) ? order : 'asc') as SortDirection}
+                                    onClick={() => handleRequestSort(propertyAsOrderBy)}
+                                />
 
                             </TableCell>
                         })}
@@ -150,7 +148,7 @@ export default function HistoryTable() {
 }
 
 const TableHeaderStyle = {
-    backgroundColor: 'blue',
+    backgroundColor: 'black',
     color: purple,
     border: `1px solid ${purple}`,
 }
