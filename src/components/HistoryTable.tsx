@@ -4,7 +4,7 @@ import { purple } from "../styles/Theme";
 // @ts-ignore
 import timeago from 'epoch-timeago';
 
-const columns = ["Site", "Tags", "Visit Count", "Last Visited"]
+const columns = ["Site", /*"Tags",*/ "Visit Count", "Last Visited"]
 type TableSortableColumns = 'title' | 'tag' | 'visitCount' | 'lastVisitTime';
 function propertyToSortBy(property: string): TableSortableColumns {
     if (property === "Site") {
@@ -79,7 +79,7 @@ export default function HistoryTable() {
         chrome.history.search({ text: searchText }, function (data) {
             const fetchedHistory = data.map((entry: chrome.history.HistoryItem) => {
                 const taggedEntry: TableItem = entry;
-                taggedEntry.tag = "woah"
+                // taggedEntry.tag = "woah"
                 taggedEntry.humanReadableTime = timeago(taggedEntry.lastVisitTime)
                 return taggedEntry
             })
@@ -122,7 +122,7 @@ export default function HistoryTable() {
                                 <div>{historyRow.title}</div>
                                 <div style={{ textDecoration: "underline", color: "#737373" }}>{getDomainFromURL(historyRow.url)}</div>
                             </TableCell>
-                            <TableCell>{historyRow.tag}</TableCell>
+                            {/* <TableCell>{historyRow.tag}</TableCell> */}
                             <TableCell>{historyRow.visitCount}</TableCell>
                             <TableCell>{historyRow.humanReadableTime}</TableCell>
                         </TableRow>
@@ -150,5 +150,5 @@ export default function HistoryTable() {
 const TableHeaderStyle = {
     backgroundColor: 'black',
     color: purple,
-    border: `1px solid ${purple}`,
+    border: `1px solid ${purple}`
 }

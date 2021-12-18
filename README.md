@@ -19,5 +19,4 @@ Not yet available.
 
 
 # TODO:
-nice dates
 refactor code
