@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { TextField, Table, TablePagination, TableSortLabel, TableHead, TableBody, TableCell, TableContainer, TableRow } from "@mui/material"
 import { purple } from "../styles/Theme";
+// @ts-ignore
+import timeago from 'epoch-timeago';
 
 const columns = ["Site", "Tags", "Visit Count", "Last Visited"]
 type TableSortableColumns = 'title' | 'tag' | 'visitCount' | 'lastVisitTime';
@@ -23,6 +25,7 @@ interface TableItem {
     visitCount?: number;
     tag?: string;
     lastVisitTime?: number;
+    humanReadableTime?: string;
 }
 type SortDirection = 'desc' | 'asc';
 
@@ -79,6 +82,7 @@ export default function HistoryTable() {
             const fetchedHistory = data.map((entry: chrome.history.HistoryItem) => {
                 const taggedEntry: TableItem = entry;
                 taggedEntry.tag = "woah"
+                taggedEntry.humanReadableTime = timeago(taggedEntry.lastVisitTime)
                 return taggedEntry
             })
             setInit(true)
@@ -122,7 +126,7 @@ export default function HistoryTable() {
                             </TableCell>
                             <TableCell>{historyRow.tag}</TableCell>
                             <TableCell>{historyRow.visitCount}</TableCell>
-                            <TableCell>{historyRow.lastVisitTime}</TableCell>
+                            <TableCell>{historyRow.humanReadableTime}</TableCell>
                         </TableRow>
                     })}
                 </TableBody>
