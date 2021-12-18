@@ -16,7 +16,7 @@ Not yet available.
 * `Load Unpacked` and select `build/`
 
 # Using Extension
-
-
-# TODO:
-refactor code
+![Image](./public/logo48.png)
+* Click on the icon above
+* Search your history
+* Auto-sort by frequency or any other column
