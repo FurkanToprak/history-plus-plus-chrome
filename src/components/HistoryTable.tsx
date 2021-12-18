@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { TextField, Table, TablePagination, TableSortLabel, TableHead, TableBody, TableCell, TableContainer, TableRow } from "@mui/material"
+import { TextField, Table, TablePagination, TableSortLabel, TableHead, TableBody, TableCell, TableContainer, TableRow, styled } from "@mui/material"
 import { purple } from "../styles/Theme";
 // @ts-ignore
 import timeago from 'epoch-timeago';
@@ -61,6 +61,16 @@ function getComparator(order: SortDirection, orderBy: TableSortableColumns) {
         : (a: TableItem, b: TableItem) => -descendingComparator(a, b, orderBy);
 }
 
+const CustomTextField = styled(TextField)({
+    '& label.Mui-focused': {
+        color: "black"
+    },
+    '& input:valid:focus + fieldset': {
+        borderColor: "black",
+    },
+});
+
+
 export default function HistoryTable() {
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const [page, setPage] = useState(0);
@@ -92,7 +102,7 @@ export default function HistoryTable() {
     }
     return <div style={{ maxHeight: 550 }}>
         <div style={{ display: "flex", alignItems: "center", flexDirection: "column" }}>
-            <TextField style={{ width: "100%" }} id="outlined-basic" label="Search History" defaultValue={""} onChange={(event) => searchHistory(event.target.value)} />
+            <CustomTextField style={{ width: "100%" }} id="outlined-basic" label="Search History" defaultValue={""} onChange={(event) => searchHistory(event.target.value)} />
         </div>
         <TableContainer>
             <Table stickyHeader={true}>

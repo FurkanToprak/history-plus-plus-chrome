@@ -5,3 +5,7 @@
 .MuiTableSortLabel-icon {
   color: #cdd2ff !important;
 }
+
+.MuiOutlinedInput-input {
+  color: black
+}
