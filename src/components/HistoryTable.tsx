@@ -2,6 +2,19 @@ import { useState } from "react";
 import { TextField, Table, TablePagination, TableSortLabel, TableHead, TableBody, TableCell, TableContainer, TableRow } from "@mui/material"
 import { purple } from "../styles/Theme";
 
+const columns = ["Site", "Tags", "Visit Count", "Last Visited"]
+type TableSortableColumns = 'title' | 'tag' | 'visitCount' | 'lastVisitTime';
+function propertyToSortBy(property: string): TableSortableColumns {
+    if (property === "Site") {
+        return 'title';
+    } else if (property === "Tags") {
+        return 'tag';
+    } else if (property === "Visit Count") {
+        return 'visitCount';
+    } else {
+        return 'lastVisitTime';
+    }
+}
 interface TableItem {
     id: string,
     title?: string;
@@ -11,6 +24,8 @@ interface TableItem {
     tag?: string;
     lastVisitTime?: number;
 }
+type SortDirection = 'desc' | 'asc';
+
 const domainGetterRegex = /(?:[\w-]+\.)+[\w-]+/;
 function getDomainFromURL(url: string | undefined) {
     if (url === undefined) {
@@ -22,13 +37,43 @@ function getDomainFromURL(url: string | undefined) {
     }
     return "";
 }
+function descendingComparator(a: TableItem, b: TableItem, orderBy: TableSortableColumns) {
+    if (b[orderBy] === undefined) {
+        return -1;
+    }
+    if (a[orderBy] === undefined) {
+        return -1;
+    }
+    if (b[orderBy]! < a[orderBy]!) {
+        return -1;
+    }
+    if (b[orderBy]! > a[orderBy]!) {
+        return 1;
+    }
+    return 0;
+}
+function getComparator(order: SortDirection, orderBy: TableSortableColumns) {
+    return order === 'desc'
+        ? (a: TableItem, b: TableItem) => descendingComparator(a, b, orderBy)
+        : (a: TableItem, b: TableItem) => -descendingComparator(a, b, orderBy);
+}
 
 export default function HistoryTable() {
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const [page, setPage] = useState(0);
-    const [order, setOrder] = useState('desc');
+    const [order, setOrder] = useState('desc' as SortDirection);
+    const [orderBy, setOrderBy] = useState('visitCount' as TableSortableColumns);
     const [init, setInit] = useState(false);
     const [history, setHistory] = useState([] as TableItem[]);
+
+    const handleRequestSort = (property: string) => {
+        const oldSortBy = propertyToSortBy(property)
+        const isAsc = orderBy === oldSortBy && order === 'asc';
+        setOrder(isAsc ? 'desc' : 'asc');
+        const newOrderBy = propertyToSortBy(property)
+        setOrderBy(newOrderBy);
+    };
+
     const searchHistory = (searchText: string) => {
         chrome.history.search({ text: searchText }, function (data) {
             const fetchedHistory = data.map((entry: chrome.history.HistoryItem) => {
@@ -51,14 +96,23 @@ export default function HistoryTable() {
             <Table stickyHeader={true}>
                 <TableHead>
                     <TableRow>
-                        <TableCell style={TableHeaderStyle}>Site</TableCell>
-                        <TableCell style={TableHeaderStyle}>Tags</TableCell>
-                        <TableCell style={TableHeaderStyle}>Visit Count</TableCell>
-                        <TableCell style={TableHeaderStyle}>Last Visited</TableCell>
+                        {columns.map((column) => {
+                            return <TableCell style={TableHeaderStyle}
+                                sortDirection={(orderBy === column ? order : false) as SortDirection}>
+                                <TableSortLabel
+                                    active={orderBy === column}
+                                    direction={((orderBy === column) ? order : 'asc') as SortDirection}
+                                    onClick={() => handleRequestSort(column)}
+                                >
+                                    {column}
+                                </TableSortLabel>
+
+                            </TableCell>
+                        })}
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {history.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(historyRow => {
+                    {history.slice().sort(getComparator(order, orderBy)).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(historyRow => {
                         return <TableRow style={{ cursor: "pointer" }} onMouseDown={() => {
                             window.open(historyRow.url, "_blank")
                         }}>
@@ -92,7 +146,7 @@ export default function HistoryTable() {
 }
 
 const TableHeaderStyle = {
-    backgroundColor: 'black',
+    backgroundColor: 'blue',
     color: purple,
     border: `1px solid ${purple}`,
 }
