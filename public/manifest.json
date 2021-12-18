@@ -13,9 +13,7 @@
     }
   },
   "permissions": [
-    "history",
-    "storage",
-    "tabs"
+    "history"
   ],
   "icons": {
     "16": "logo16.png",
