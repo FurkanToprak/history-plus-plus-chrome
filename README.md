@@ -17,6 +17,6 @@ Not yet available.
 
 # Using Extension
 ![Image](./public/logo48.png)
-* Click on the icon above
+* Click on the icon in the corner (looks like the above)
 * Search your history
 * Auto-sort by frequency or any other column
