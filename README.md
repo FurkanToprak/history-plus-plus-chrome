@@ -7,7 +7,7 @@ A secure browser extension that helps (not just) developers conveniently sort th
 
 # Installation
 ## Installing from Chrome Store
-Not yet available.
+[Install here!](https://chrome.google.com/webstore/detail/history%20%20/lobmimmfijblnnmkbmogdlpjpbilkmdg?hl=en)
 ## Building from Source
 * Clone this repository.
 * `npm install`
