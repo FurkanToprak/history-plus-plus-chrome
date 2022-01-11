@@ -93,6 +93,7 @@ export default function HistoryTable() {
                 taggedEntry.humanReadableTime = timeago(taggedEntry.lastVisitTime)
                 return taggedEntry
             })
+            setPage(0)
             setInit(true)
             setHistory(fetchedHistory)
         });
@@ -110,22 +111,22 @@ export default function HistoryTable() {
                     <TableRow>
                         {columns.map((column) => {
                             const propertyAsOrderBy = propertyToSortBy(column);
-                            return <TableCell style={TableHeaderStyle}
-                                sortDirection={(propertyAsOrderBy === column ? order : false) as SortDirection}>
+                            return <TableCell style={tableHeaderStyle}
+                                sortDirection={(propertyAsOrderBy === column ? order : false) as SortDirection}
+                                onMouseDown={() => handleRequestSort(propertyAsOrderBy)}
+                                >
                                 {column}
                                 <TableSortLabel
                                     active={propertyAsOrderBy === orderBy}
                                     direction={((propertyAsOrderBy === orderBy) ? order : 'asc') as SortDirection}
-                                    onClick={() => handleRequestSort(propertyAsOrderBy)}
                                 />
-
                             </TableCell>
                         })}
                     </TableRow>
                 </TableHead>
                 <TableBody>
                     {history.slice().sort(getComparator(order, orderBy)).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(historyRow => {
-                        return <TableRow style={{ cursor: "pointer" }} onMouseDown={() => {
+                        return <TableRow style={tableRowStyle} onMouseDown={() => {
                             window.open(historyRow.url, "_blank")
                         }}>
                             <TableCell>
@@ -157,8 +158,10 @@ export default function HistoryTable() {
     </div>
 }
 
-const TableHeaderStyle = {
+const tableRowStyle = { cursor: "pointer" }
+const tableHeaderStyle = {
     backgroundColor: 'black',
     color: purple,
-    border: `1px solid ${purple}`
+    border: `1px solid ${purple}`,
+    cursor: 'pointer'
 }
